@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 moveVector;
     private GunController theGun;
     private bool dash;
+    public bool pushing;
 
 	private bool fire;
 	public float rotateSpeed;
@@ -106,6 +107,19 @@ public class PlayerController : MonoBehaviour {
 			{
 				pushableObj = hit.transform.GetComponent<PushObject>();
 				pushableObj.touchingCube = true;
+			    if (player.GetButtonSinglePressHold("Use") && pushObject.GetComponent<Rigidbody>().isKinematic)
+			    {
+                    anim.SetBool("Pushing", true);
+			        pushObject.GetComponent<Rigidbody>().isKinematic = false;
+			        transform.Find("rifle").gameObject.SetActive(false);
+
+			    }
+			    else if (player.GetButtonUp("Use") && !pushObject.GetComponent<Rigidbody>().isKinematic)
+			    {
+			        anim.SetBool("Pushing", false);
+                    pushObject.GetComponent<Rigidbody>().isKinematic = true;
+			        transform.Find("rifle").gameObject.SetActive(true);
+                }
 			}
 		}
 		else
@@ -114,7 +128,10 @@ public class PlayerController : MonoBehaviour {
 			{
 				pushableObj.touchingCube = false;
 				pushableObj = null;
-			}
+			    pushObject.GetComponent<Rigidbody>().isKinematic = true;
+			    anim.SetBool("Pushing", false);
+			    transform.Find("rifle").gameObject.SetActive(true);
+            }
 		}
 
 
