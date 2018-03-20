@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
+using UnityEngine.UI;
 
 // [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour {
 
 	public int playerId = 0; // The Rewired player id of this character
+	public int health = 100;
+	public Image healthBar;
 	//public float bulletSpeed = 15.0f;
 	//public GameObject bulletPrefab;
 
