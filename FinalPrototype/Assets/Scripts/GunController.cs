@@ -26,16 +26,19 @@ public class GunController : MonoBehaviour
     {
         if (isFiring)
         {
+            timer -= Time.deltaTime;
             if (timer <= 0)
             {
                 timer = cooldown;
                 Bullet newBullet = Instantiate(bullet, firePoint.position, firePoint.rotation) as Bullet;
                 newBullet.speed = bulletSpeed;
+                timer = 0.2f;
             }
         }
-        else if (timer > 0)
-        {
-            timer -= Time.deltaTime;
-        }
+        // else if (timer > 0)
+        // {
+        //     timer -= Time.deltaTime;
+            
+        // }
     }
 }

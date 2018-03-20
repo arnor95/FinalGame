@@ -26,11 +26,13 @@ public class playerController : MonoBehaviour {
 	private Vector3 moveInput;
 	private Vector3 moveVelocity;
 	private Vector3 camForward;
+	private PushObject pushObject;
 	Transform cam;
 
 	float forwardAmount;
 	float turnAmount;
 
+	private PushObject pushableObj;
 
 	void Awake() {
 		// Get the Rewired Player object for this player and keep it for 
@@ -50,6 +52,8 @@ public class playerController : MonoBehaviour {
 		cam = Camera.main.transform;
 
 		rotateSpeed = 150;
+
+		pushObject = GameObject.FindObjectOfType<PushObject>();
 	}
 	
 	// Update is called once per frame
@@ -83,7 +87,7 @@ public class playerController : MonoBehaviour {
 	    {
 	        theGun.isFiring = true;
 	    }
-	    else
+	    else if(player.GetButtonUp("Fire"))
 	    {
 	        theGun.isFiring = false;
 	    }
@@ -93,8 +97,42 @@ public class playerController : MonoBehaviour {
     private void FixedUpdate()
     {
         myRigidBody.velocity = moveVelocity;
+		
+		RaycastHit hit = new RaycastHit();
+		
+		Vector3 fwd = transform.TransformDirection(Vector3.forward);
+		Vector3 rayPos = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+		
+		Debug.DrawRay(rayPos, fwd, Color.green);
+        
+		if(Physics.Raycast(rayPos, fwd, out hit, 1f))
+		{
+			
+			if(hit.collider.gameObject.name == "MovableObject") 
+			{
+				pushableObj = hit.transform.GetComponent<PushObject>();
+				pushableObj.touchingCube = true;
+				// touchingMovableObject = hit.transform.GetComponent<PushObject>().touchingCube;
+				// touchingMovableObject = true;
+				// pushObj.touchingCube = true;
+			}
+			// else if(hit.collider.gameObject == null && pushableObj != null)
+			// {
+			// 	pushableObj.touchingCube = false;
+			// }
 
-        float horizontal = player.GetAxisRaw("MHorizontal");
+		}
+		else
+		{
+			if(pushableObj != null)
+			{
+				pushableObj.touchingCube = false;
+				pushableObj = null;
+			}
+		}
+
+
+		float horizontal = player.GetAxisRaw("MHorizontal");
         float vertical = player.GetAxisRaw("MVertical");
 
         if (cam != null)
