@@ -7,7 +7,9 @@ public class Bullet : MonoBehaviour
 
     public float speed;
 	public bool hit;
+    public bool enemyBullet = false;
 
+    public float damage;
 	public float timeAlive;
 
 	// Use this for initialization
@@ -24,4 +26,14 @@ public class Bullet : MonoBehaviour
 		if (timeAlive >= 2)
 			Destroy (gameObject);
 	}
+
+    private void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.tag == "Player" && enemyBullet)
+        {
+            col.gameObject.GetComponent<PlayerController>().takeDamage(damage);
+            Destroy(this.gameObject);
+        }
+    }
+
 }

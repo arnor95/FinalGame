@@ -8,7 +8,8 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour {
 
 	public int playerId = 0; // The Rewired player id of this character
-	public int health = 100;
+	public float health = 100;
+    private float startHealth = 100;
 	public Image healthBar;
 	//public float bulletSpeed = 15.0f;
 	//public GameObject bulletPrefab;
@@ -197,7 +198,13 @@ public class PlayerController : MonoBehaviour {
 		UpdateAnimator();
 	}
 
-	private void ConvertMoveInput()
+    public void takeDamage(float amount)
+    {
+        health -= amount;
+        healthBar.fillAmount = health / startHealth;
+    }
+
+    private void ConvertMoveInput()
 	{
 		Vector3 localMove = transform.InverseTransformDirection(moveInput);
 		turnAmount = localMove.x;
