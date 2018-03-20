@@ -58,14 +58,6 @@ public class PushObject : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		 //F key to Push
-        vel = rb.velocity.magnitude;
-		if(touchingCube && player.GetButtonLongPress("Use") && rb.isKinematic)
-		{
-			rb.isKinematic = false;
-		} else if(touchingCube && player.GetButtonUp("Use") && !rb.isKinematic) {
-			rb.isKinematic = true;
-		}
-
         if (Input.GetKeyUp(KeyCode.F))
         {
             rb.isKinematic = false;
