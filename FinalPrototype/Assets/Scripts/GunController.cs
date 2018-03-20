@@ -7,11 +7,14 @@ public class GunController : MonoBehaviour
 
     public bool isFiring;
 
-    public Bullet bullet;
+    public List<Bullet> bullets;
+	public Bullet bullet;
     public float bulletSpeed;
 
     public float cooldown;
     public float timer;
+
+	public float timeAlive;
 
     public Transform firePoint;
 
@@ -24,18 +27,15 @@ public class GunController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isFiring)
-        {
-            if (timer <= 0)
-            {
-                timer = cooldown;
-                Bullet newBullet = Instantiate(bullet, firePoint.position, firePoint.rotation) as Bullet;
-                newBullet.speed = bulletSpeed;
-            }
-        }
-        else if (timer > 0)
-        {
-            timer -= Time.deltaTime;
-        }
+		if (isFiring)
+		{
+			timer -= Time.deltaTime;
+			if (timer <= 0)
+			{
+				Bullet newBullet = Instantiate(bullet, firePoint.position, firePoint.rotation) as Bullet;
+				newBullet.speed = bulletSpeed;
+				timer = cooldown;
+			}
+		} 				
     }
 }

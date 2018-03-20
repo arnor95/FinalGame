@@ -83,10 +83,10 @@ public class playerController : MonoBehaviour {
 	    {
 	        theGun.isFiring = true;
 	    }
-	    else
+		else if(player.GetButtonUp("Fire"))
 	    {
 	        theGun.isFiring = false;
-	    }
+	    }	
 	      
 	}
 
