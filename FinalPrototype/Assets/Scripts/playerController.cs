@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour {
 
 	    anim = GetComponent<Animator>();
 		myRigidBody = GetComponent<Rigidbody>();
-	    theGun = FindObjectOfType<GunController>();
+	    theGun = transform.Find("rifle").gameObject.GetComponent<GunController>();
 	}
 
 	void Start () {
