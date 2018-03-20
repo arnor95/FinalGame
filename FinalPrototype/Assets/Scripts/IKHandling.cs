@@ -28,14 +28,16 @@ public class IKHandling : MonoBehaviour
 
     void OnAnimatorIK()
     {
-        anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, LeftHandWeight);
-        anim.SetIKPosition(AvatarIKGoal.LeftHand, LeftHandTarget.position);
-        anim.SetIKRotationWeight(AvatarIKGoal.LeftHand, LeftHandWeight);
-        anim.SetIKRotation(AvatarIKGoal.LeftHand, LeftHandTarget.rotation);
-
-        anim.SetIKPositionWeight(AvatarIKGoal.RightHand, RightHandWeight);
-        anim.SetIKPosition(AvatarIKGoal.RightHand, RightHandTarget.position);
-        anim.SetIKRotationWeight(AvatarIKGoal.RightHand, RightHandWeight);
-        anim.SetIKRotation(AvatarIKGoal.RightHand, RightHandTarget.rotation);
+//		if (gameObject != null) {
+			anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, LeftHandWeight);
+			anim.SetIKPosition(AvatarIKGoal.LeftHand, LeftHandTarget.position);
+			anim.SetIKRotationWeight(AvatarIKGoal.LeftHand, LeftHandWeight);
+			anim.SetIKRotation(AvatarIKGoal.LeftHand, LeftHandTarget.rotation);
+			
+			anim.SetIKPositionWeight(AvatarIKGoal.RightHand, RightHandWeight);
+			anim.SetIKPosition(AvatarIKGoal.RightHand, RightHandTarget.position);
+			anim.SetIKRotationWeight(AvatarIKGoal.RightHand, RightHandWeight);
+			anim.SetIKRotation(AvatarIKGoal.RightHand, RightHandTarget.rotation);		
+//		}
     }
 }

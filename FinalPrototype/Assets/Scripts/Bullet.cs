@@ -6,6 +6,9 @@ public class Bullet : MonoBehaviour
 {
 
     public float speed;
+	public bool hit;
+
+	public float timeAlive;
 
 	// Use this for initialization
 	void Start () {
@@ -16,5 +19,9 @@ public class Bullet : MonoBehaviour
 	void Update ()
 	{
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
+
+		timeAlive += Time.deltaTime;
+		if (timeAlive >= 2)
+			Destroy (gameObject);
 	}
 }
