@@ -4,7 +4,7 @@ using UnityEngine;
 using Rewired;
 
 // [RequireComponent(typeof(CharacterController))]
-public class playerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour {
 
 	public int playerId = 0; // The Rewired player id of this character
 	//public float bulletSpeed = 15.0f;
@@ -26,11 +26,13 @@ public class playerController : MonoBehaviour {
 	private Vector3 moveInput;
 	private Vector3 moveVelocity;
 	private Vector3 camForward;
+	private PushObject pushObject;
 	Transform cam;
 
 	float forwardAmount;
 	float turnAmount;
 
+	private PushObject pushableObj;
 
 	void Awake() {
 		// Get the Rewired Player object for this player and keep it for 
@@ -50,6 +52,8 @@ public class playerController : MonoBehaviour {
 		cam = Camera.main.transform;
 
 		rotateSpeed = 150;
+
+		pushObject = GameObject.FindObjectOfType<PushObject>();
 	}
 	
 	// Update is called once per frame
@@ -78,23 +82,40 @@ public class playerController : MonoBehaviour {
 
 	    // anim.SetFloat("Forward", animMove);
 	    // anim.SetFloat("Turn", animStrafe);
-
-	    if (player.GetButtonDown("Fire"))
-	    {
-	        theGun.isFiring = true;
-	    }
-		else if(player.GetButtonUp("Fire"))
-	    {
-	        theGun.isFiring = false;
-	    }	
 	      
 	}
 
     private void FixedUpdate()
     {
         myRigidBody.velocity = moveVelocity;
+		
+		RaycastHit hit = new RaycastHit();
+		
+		Vector3 fwd = transform.TransformDirection(Vector3.forward);
+		Vector3 rayPos = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+		
+		Debug.DrawRay(rayPos, fwd, Color.green);
+        
+		if(Physics.Raycast(rayPos, fwd, out hit, 1f))
+		{
+			
+			if(hit.collider.gameObject.tag == "MovableObject") 
+			{
+				pushableObj = hit.transform.GetComponent<PushObject>();
+				pushableObj.touchingCube = true;
+			}
+		}
+		else
+		{
+			if(pushableObj != null)
+			{
+				pushableObj.touchingCube = false;
+				pushableObj = null;
+			}
+		}
 
-        float horizontal = player.GetAxisRaw("MHorizontal");
+
+		float horizontal = player.GetAxisRaw("MHorizontal");
         float vertical = player.GetAxisRaw("MVertical");
 
         if (cam != null)
@@ -172,13 +193,13 @@ public class playerController : MonoBehaviour {
 
 	private void GetInput() 
 	{
-		// Get the input from the Rewired Player. 
-		// All controllers that the Player owns will contribute, so it doesn't matter
-		// whether the input is coming from a joystick, the keyboard, mouse, or a custom 
-		// controller.
-
-		// smoveVector.x = player.GetAxis("Move Horizontal"); // get input by name or action id
-		// moveVector.y = player.GetAxis("Rotate Player");
-		fire = player.GetButtonDown("Fire");
+		if (player.GetButtonDown("Fire"))
+		{
+			theGun.isFiring = true;
+		}
+		else if(player.GetButtonUp("Fire"))
+		{
+			theGun.isFiring = false;
+		}	
 	}
 }
